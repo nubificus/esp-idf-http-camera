@@ -366,8 +366,8 @@ void app_main(void)
 	wifi_init_sta();
 
 	// Initialize mDNS
-	initialise_mdns();
-
+	//initialise_mdns();
+/*
 #if CONFIG_REMOTE_IS_VARIABLE_NAME
 	// obtain time over NTP
 	ESP_LOGI(TAG, "Connecting to WiFi and getting time over NTP.");
@@ -387,7 +387,7 @@ void app_main(void)
 	strftime(strftime_buf, sizeof(strftime_buf), "%c", &timeinfo);
 	ESP_LOGI(TAG, "The current date/time is: %s", strftime_buf);
 #endif
-
+*/
 	// Initialize SPIFFS
 	ESP_LOGI(TAG, "Initializing SPIFFS");
 	char *partition_label = "storage";
@@ -417,22 +417,22 @@ void app_main(void)
 	/* Create Shutter Task */
 #if CONFIG_SHUTTER_ENTER
 #define SHUTTER "Keybord Enter"
-	xTaskCreate(keyin, "KEYIN", 1024*4, NULL, 2, NULL);
+	//xTaskCreate(keyin, "KEYIN", 1024*4, NULL, 2, NULL);
 #endif
 
 #if CONFIG_SHUTTER_GPIO
 #define SHUTTER "GPIO Input"
-	xTaskCreate(gpio, "GPIO", 1024*4, NULL, 2, NULL);
+	//xTaskCreate(gpio, "GPIO", 1024*4, NULL, 2, NULL);
 #endif
 
 #if CONFIG_SHUTTER_TCP
 #define SHUTTER "TCP Input"
-	xTaskCreate(tcp_server, "TCP", 1024*4, NULL, 2, NULL);
+	//xTaskCreate(tcp_server, "TCP", 1024*4, NULL, 2, NULL);
 #endif
 
 #if CONFIG_SHUTTER_UDP
 #define SHUTTER "UDP Input"
-	xTaskCreate(udp_server, "UDP", 1024*4, NULL, 2, NULL);
+	//xTaskCreate(udp_server, "UDP", 1024*4, NULL, 2, NULL);
 #endif
 
 #if CONFIG_SHUTTER_HTTP
@@ -502,13 +502,14 @@ void app_main(void)
 	HTTP_t httpBuf;
 	httpBuf.taskHandle = xTaskGetCurrentTaskHandle();
 	strcpy(httpBuf.localFileName, requestBuf.localFileName);
-	CMD_t cmdBuf;
+	//CMD_t cmdBuf;
 
 	while(1) {
-		ESP_LOGI(TAG,"Waitting %s ....", SHUTTER);
-		xQueueReceive(xQueueCmd, &cmdBuf, portMAX_DELAY);
-		ESP_LOGI(TAG,"cmdBuf.command=%d", cmdBuf.command);
-		if (cmdBuf.command == CMD_HALT) break;
+		//ESP_LOGI(TAG,"Waitting %s ....", SHUTTER);
+		//xQueueReceive(xQueueCmd, &cmdBuf, portMAX_DELAY);
+		//ESP_LOGI(TAG,"cmdBuf.command=%d", cmdBuf.command);
+		//if (cmdBuf.command == CMD_HALT) break;
+		vTaskDelay(100);
 
 		// Delete local file
 		struct stat statBuf;
